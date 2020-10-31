@@ -11,6 +11,10 @@
 </head>
 
 <body>
+    
+<?php
+include "loadTrees.php";
+?> 
     <div class="card text-center">
         <div class="card-header"></div>
         <div class="card-body">
@@ -24,13 +28,20 @@
         <div class="row">
             <div class="col-md-4">
                 List od all tree species <br><br>
-                <ul class="list-group">
-                    <li class="list-group-item active">Tree</li>
-                    <li class="list-group-item">Name</li>
-                    <li class="list-group-item">Image</li>
-                    <li class="list-group-item">Description</li>
-                    <li class="list-group-item">Points</li>
-                </ul>
+                <?php 
+                    select_all_trees(); 
+                    foreach ($trees as $tree):
+                ?>
+                    <ul class="list-group">
+                        <li class="list-group-item active">Tree</li>
+                        <li class="list-group-item">Name - <?php echo "".$tree->get_name();?></li>
+                        <li class="list-group-item">Image - <?php echo "".$tree->get_img();?></li>
+                        <li class="list-group-item">Description - <?php echo "".$tree->get_description();?></li>
+                        <li class="list-group-item">Points - <?php echo "".$tree->get_points();?></li>
+                    </ul>
+                <?php 
+                    endforeach;
+                ?>
             </div>
             <div class="col-md-4">
                 Chosen tree <br><br>
