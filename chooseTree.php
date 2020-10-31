@@ -11,12 +11,14 @@ function chooseTree($id)
     $insertQuery = "INSERT INTO chosen_tree (tree_id, duration, datetime, status, score) 
                     VALUES ('$id', '0', 'NOW()', 'Not started', '0');";
     if($mysqli->query($insertQuery)===true){
-        echo "<script type='text/javascript'>alert('Succefully chose tree. inserted id: $mysqli->insert_id');</script>";
+        echo "<script type='text/javascript'>alert('Succefully chose tree. Last inserted id: $mysqli->insert_id');</script>";
         select_chosen_tree($mysqli->insert_id);
     } else {
         echo "<script type='text/javascript'>alert('Failed while choosing tree.');</script>";
     }
 }
+
+
 
 
 

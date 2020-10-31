@@ -41,6 +41,7 @@ function select_chosen_tree($chosen_tree_id)
         $chosen_tree->set_datetime($row->datetime);
         $chosen_tree->set_status($row->status);
         $chosen_tree->set_score($row->score);
+        return $chosen_tree;
     }
 }
 
@@ -61,6 +62,3 @@ function select_tree($id)
         return $tree;
     }
 }
-
-
-?>
