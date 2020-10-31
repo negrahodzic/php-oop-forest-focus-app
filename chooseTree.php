@@ -1,6 +1,10 @@
 <?php
 include "connection/connection.php";
 
+if (isset($_POST['treeWasChosen'])) { 
+    chooseTree($_POST['treeWasChosen']);
+}
+
 function chooseTree($id)
 {
     global $mysqli;
@@ -14,9 +18,5 @@ function chooseTree($id)
     }
 }
 
-if (isset($_POST['treeWasChosen'])) { 
-    chooseTree($_POST['treeWasChosen']);
-}
 
-// TODO: if post delete
 

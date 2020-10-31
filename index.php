@@ -30,6 +30,7 @@
     <?php
     include "loadTrees.php";
     include "chooseTree.php";
+    include "deleteTrees.php";
     ?>
     <div class="card text-center">
         <div class="card-header"></div>
@@ -70,42 +71,48 @@
             </div>
             <div class="col-md-4">
                 Chosen tree <br><br>
-                <ul class="list-group">
-                    <li class="list-group-item">Chosen Tree :
-                        <?php
-                        if ($chosen_tree) {
-                            echo "" . select_tree($chosen_tree->get_tree_id())->get_name();
-                        }
-                        ?>
-                    </li>
-                    <li class="list-group-item">
-                        <?php
-                        if ($chosen_tree) { 
-                            echo '<img src="img/' . select_tree($chosen_tree->get_tree_id())->get_img(). '">';
-                        }
-                        ?>
-                    </li>
-                    <li class="list-group-item">Duration :
-                        <?php
-                        if ($chosen_tree) {
-                            echo "" . $chosen_tree->get_duration() . " min";
-                        }
-                        ?>
-                    </li>
-                    <li class="list-group-item">Score :
-                        <?php
-                        if ($chosen_tree) {
-                            echo "" . $chosen_tree->get_score() . " points";
-                        }
-                        ?>
-                    <li class="list-group-item">Status :
-                        <?php
-                        if ($chosen_tree) {
-                            echo "" . $chosen_tree->get_status();
-                        }
-                        ?>
-                    </li>
-                </ul>
+                <form action="" method="post">
+                    <ul class="list-group">
+                        <li class="list-group-item">Chosen Tree :
+                            <?php
+                            if ($chosen_tree) {
+                                echo "" . select_tree($chosen_tree->get_tree_id())->get_name();
+                            }
+                            ?>
+                        </li>
+                        <li class="list-group-item">
+                            <?php
+                            if ($chosen_tree) {
+                                echo '<img src="img/' . select_tree($chosen_tree->get_tree_id())->get_img() . '">';
+                            }
+                            ?>
+                        </li>
+                        <li class="list-group-item">Duration :
+                            <?php
+                            if ($chosen_tree) {
+                                echo "" . $chosen_tree->get_duration() . " min";
+                            }
+                            ?>
+                        </li>
+                        <li class="list-group-item">Score :
+                            <?php
+                            if ($chosen_tree) {
+                                echo "" . $chosen_tree->get_score() . " points";
+                            }
+                            ?>
+                        <li class="list-group-item">Status :
+                            <?php
+                            if ($chosen_tree) {
+                                echo "" . $chosen_tree->get_status();
+                            }
+                            ?>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center">
+                            <input hidden type="number" name="treeWasRemoved" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_chosen_tree_id(); ?>">
+                            <button type="submit" class="btn btn-outline-primary">Remove tree</button>
+                        </li>
+                    </ul>
+                </form>
             </div>
             <div class="col-md-4">
                 Planting history <br><br>
