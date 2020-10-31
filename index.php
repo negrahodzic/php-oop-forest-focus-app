@@ -8,13 +8,29 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <style>
+        .allTrees {
+            max-height: 70vh;
+            margin-bottom: 10px;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        img {
+            max-height: 150px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 
 <body>
-    
-<?php
-include "loadTrees.php";
-?> 
+
+    <?php
+    include "loadTrees.php";
+    include "chooseTree.php";
+    ?>
     <div class="card text-center">
         <div class="card-header"></div>
         <div class="card-body">
@@ -27,29 +43,68 @@ include "loadTrees.php";
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                List od all tree species <br><br>
-                <?php 
-                    select_all_trees(); 
-                    foreach ($trees as $tree):
-                ?>
-                    <ul class="list-group">
-                        <li class="list-group-item active">Tree</li>
-                        <li class="list-group-item">Name - <?php echo "".$tree->get_name();?></li>
-                        <li class="list-group-item">Image - <?php echo "".$tree->get_img();?></li>
-                        <li class="list-group-item">Description - <?php echo "".$tree->get_description();?></li>
-                        <li class="list-group-item">Points - <?php echo "".$tree->get_points();?></li>
-                    </ul>
-                <?php 
+                List of all tree species <br><br>
+                <div class="allTrees">
+
+                    <?php
+                    select_all_trees();
+                    foreach ($trees as $tree) :
+                    ?>
+                        <form action="" method="post">
+                            <ul class="list-group">
+                                <li class="list-group-item"> <?php echo '<img src="img/' . $tree->get_img() . '">'; ?></li>
+                                <li class="list-group-item">Name - <?php echo "" . $tree->get_name(); ?></li>
+                                <li class="list-group-item">Description - <?php echo "" . $tree->get_description(); ?></li>
+                                <li class="list-group-item">Points - <?php echo "" . $tree->get_points(); ?></li>
+                                <li class="list-group-item d-flex justify-content-center">
+                                    <input hidden type="number" name="treeWasChosen" value="<?php echo "" . $tree->get_id(); ?>">
+                                    <button type="submit" class="btn btn-outline-primary">Choose tree</button>
+                                </li>
+                            </ul>
+                        </form>
+                    <?php
                     endforeach;
-                ?>
+                    ?>
+
+                </div>
             </div>
             <div class="col-md-4">
                 Chosen tree <br><br>
                 <ul class="list-group">
-                    <li class="list-group-item active">Chosen Tree</li>
-                    <li class="list-group-item">Tree</li>
-                    <li class="list-group-item">Duration</li>
-                    <li class="list-group-item">Status</li>
+                    <li class="list-group-item">Chosen Tree :
+                        <?php
+                        if ($chosen_tree) {
+                            echo "" . select_tree($chosen_tree->get_tree_id())->get_name();
+                        }
+                        ?>
+                    </li>
+                    <li class="list-group-item">
+                        <?php
+                        if ($chosen_tree) { 
+                            echo '<img src="img/' . select_tree($chosen_tree->get_tree_id())->get_img(). '">';
+                        }
+                        ?>
+                    </li>
+                    <li class="list-group-item">Duration :
+                        <?php
+                        if ($chosen_tree) {
+                            echo "" . $chosen_tree->get_duration() . " min";
+                        }
+                        ?>
+                    </li>
+                    <li class="list-group-item">Score :
+                        <?php
+                        if ($chosen_tree) {
+                            echo "" . $chosen_tree->get_score() . " points";
+                        }
+                        ?>
+                    <li class="list-group-item">Status :
+                        <?php
+                        if ($chosen_tree) {
+                            echo "" . $chosen_tree->get_status();
+                        }
+                        ?>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-4">
@@ -64,6 +119,9 @@ include "loadTrees.php";
         </div>
     </div>
 
+    <script>
+
+    </script>
 </body>
 
 </html>
