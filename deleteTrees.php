@@ -13,6 +13,7 @@ function removeTree($id)
         echo "<script type='text/javascript'>alert('Succefully removed tree.');</script>";
         global $chosen_tree;
         $chosen_tree = null;
+        unset($_SESSION['chosen']);
     } else {
         echo "<script type='text/javascript'>alert('Failed while removing tree.');</script>";
     }

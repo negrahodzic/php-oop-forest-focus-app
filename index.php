@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Forest</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <!-- <script src="timer.js"></script> -->
+    <script type="text/javascript" src="js/timer.js"></script>
     <style>
         .allTrees {
             max-height: 70vh;
@@ -29,17 +30,23 @@
 <body>
 
     <?php
-    include "loadTrees.php";
+    //echo "SESSION : ".$_SESSION['chosen']->get_chosen_tree_id();
+
+    include "classes/tree.php";
+    include "classes/chosen_tree.php";
+    include "session.php";
+    include "selectTrees.php";
     include "chooseTree.php";
-    include "deleteTrees.php";
     include "updateTrees.php";
+    include "deleteTrees.php";
+
+
     ?>
     <div class="card text-center">
         <div class="card-header"></div>
         <div class="card-body">
             <h5 class="card-title">Forest: Stay focused, be present!</h5>
             <p class="card-text">Forest is an app that helps you stay focused on the important things in life.</p>
-            <!-- <p id="demo"></p> -->
         </div>
         <div class="card-footer text-muted"></div>
     </div>
@@ -90,7 +97,7 @@
                             }
                             ?>
                         </li>
-                        <li class="list-group-item">Duration :
+                        <li class="list-group-item">Duration : <p id="timer"></p>
                             <div class="input-group">
                                 <input type="number" name="minutes" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_duration(); ?>">
                                 <div class="input-group-append">
@@ -107,16 +114,13 @@
                             </div>
                         </li>
                         <li class="list-group-item">Status :
-                            <?php
-                            if ($chosen_tree) {
-                                echo "" . $chosen_tree->get_status();
-                            }
-                            ?>
+                            <input readonly type="text" name="status" id="status" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_status(); ?>">
                         </li>
                         <li class="list-group-item d-flex justify-content-center">
-                            <input hidden type="number" name="chosenTreeId" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_chosen_tree_id(); ?>">
-                            <input type="submit" name="remove" value="Remove tree" class="btn btn-outline-primary">
-                            <input type="submit" name="start" value="Start planting" class="btn btn-outline-primary">
+                            <input hidden type="number" name="chosenTreeId" id="chosenTreeId" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_chosen_tree_id(); ?>">
+                            <input type="submit" name="remove" value="Remove tree" id="remove" class="btn btn-outline-primary">
+                            <input type="submit" name="start" value="Start planting" id="start"class="btn btn-outline-primary">
+                            <input type="submit" name="give_up" value="Give up" id="give_up" class="btn btn-outline-primary">
                         </li>
                     </ul>
                 </form>
@@ -132,10 +136,7 @@
             </div>
         </div>
     </div>
-
-    <script>
-
-    </script>
+    <script>$("#give_up").hide();</script>
 </body>
 
 </html>
