@@ -9,7 +9,6 @@ if (isset($_POST['start']) && $_POST['start'] = "Start planting" && $_POST['chos
         update_chosen_tree($_POST['chosenTreeId'], $_POST['minutes'], "NOW()",$_POST['status'], $score); 
         $min =  $_POST['minutes'];
         echo '<script type="text/javascript">startTimer('.$min.');</script>';
-        // echo " * * * SESSION start planting: ".$_SESSION['chosen']->get_chosen_tree_id();
     }
 } 
 
@@ -18,6 +17,10 @@ if(isset($_POST['s']) && isset($_POST['id'])){
     update_chosen_tree_status($_POST['id'], $_POST['s']); 
 }
 
+// Clicked on button "Give up"
+if (isset($_POST['give_up']) && $_POST['give_up'] = "Give up" && $_POST['chosenTreeId']!= null) {
+    update_chosen_tree_status($_POST['chosenTreeId'], "Withered"); 
+} 
 
 function update_chosen_tree($chosen_tree_id, $duration = 0, $datetime = "NOW()", $status="Not started", $score = 0){
     global $mysqli;

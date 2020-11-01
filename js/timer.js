@@ -34,6 +34,7 @@ function startTimer(min) {$("#remove").hide();
       document.getElementById("timer").innerHTML = "Successfully planted your tree!";
       document.getElementById("status").value = "Planted";
       updateStatus("Planted");
+      $("#give_up").hide();
     }
   }, 1000);
 }
