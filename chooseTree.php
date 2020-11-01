@@ -13,7 +13,6 @@ function chooseTree($id)
     if($mysqli->query($insertQuery)===true){
         echo "<script type='text/javascript'>alert('Succefully chose tree. Last inserted id: $mysqli->insert_id');</script>";
         $_SESSION['chosen'] = select_chosen_tree($mysqli->insert_id);
-        echo "* * * SESSION choose tree : ".$_SESSION['chosen']->get_chosen_tree_id();
     } else {
         echo "<script type='text/javascript'>alert('Failed while choosing tree.');</script>";
     }

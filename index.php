@@ -10,28 +10,13 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/timer.js"></script>
-    <style>
-        .allTrees {
-            max-height: 70vh;
-            margin-bottom: 10px;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-        }
+    <link rel="stylesheet" href="css/style.css">
 
-        img {
-            max-height: 150px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
 </head>
 
 <body>
 
     <?php
-    //echo "SESSION : ".$_SESSION['chosen']->get_chosen_tree_id();
-
     include "classes/tree.php";
     include "classes/chosen_tree.php";
     include "session.php";
@@ -39,40 +24,40 @@
     include "chooseTree.php";
     include "updateTrees.php";
     include "deleteTrees.php";
-
-
     ?>
-    <div class="card text-center">
+
+    <div class="card text-center title-back">
         <div class="card-header"></div>
-        <div class="card-body">
+        <div class="card-body title">
             <h5 class="card-title">Forest: Stay focused, be present!</h5>
             <p class="card-text">Forest is an app that helps you stay focused on the important things in life.</p>
         </div>
         <div class="card-footer text-muted"></div>
     </div>
-    <br><br><br>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                List of all tree species <br><br>
-                <div class="allTrees">
-
+                <div class="allTrees scrollbar-primary">
                     <?php
                     select_all_trees();
                     foreach ($trees as $tree) :
-                    ?>
+                    ?> <br>
+
                         <form action="" method="post">
+
                             <ul class="list-group">
-                                <li class="list-group-item"> <?php echo '<img src="img/' . $tree->get_img() . '">'; ?></li>
-                                <li class="list-group-item">Name - <?php echo "" . $tree->get_name(); ?></li>
-                                <li class="list-group-item">Description - <?php echo "" . $tree->get_description(); ?></li>
-                                <li class="list-group-item">Points - <?php echo "" . $tree->get_points(); ?></li>
-                                <li class="list-group-item d-flex justify-content-center">
+                                <li class="list-group-item my-list-style"> <?php echo '<img src="img/' . $tree->get_img() . '">'; ?></li>
+                                <li class="list-group-item my-list-style">Name - <?php echo "" . $tree->get_name(); ?></li>
+                                <li class="list-group-item my-list-style">Description - <?php echo "" . $tree->get_description(); ?></li>
+                                <li class="list-group-item my-list-style">Points - <?php echo "" . $tree->get_points(); ?></li>
+                                <li class="list-group-item my-list-style d-flex justify-content-center">
                                     <input hidden type="number" name="treeWasChosen" value="<?php echo "" . $tree->get_id(); ?>">
-                                    <button type="submit" class="btn btn-outline-primary">Choose tree</button>
+                                    <button type="submit" class="btn btn-outline-light">Choose tree</button>
                                 </li>
                             </ul>
+
                         </form>
+
                     <?php
                     endforeach;
                     ?>
@@ -80,63 +65,69 @@
                 </div>
             </div>
             <div class="col-md-4">
-                Chosen tree <br><br>
-                <form action="" method="post">
+                <?php if ($chosen_tree) : ?>
+                    <form action="" method="post">
+                        <ul class="list-group chosen">
+                            <li class="list-group-item my-list-style">Chosen Tree :
+                                <?php
+                                if ($chosen_tree) {
+                                    echo "" . select_tree($chosen_tree->get_tree_id())->get_name();
+                                }
+                                ?>
+                            </li>
+                            <li class="list-group-item my-list-style">
+                                <?php
+                                if ($chosen_tree) {
+                                    echo '<img src="img/' . select_tree($chosen_tree->get_tree_id())->get_img() . '">';
+                                }
+                                ?>
+                            </li>
+                            <li class="list-group-item my-list-style">Duration : <p id="timer"></p>
+                                <div class="input-group">
+                                    <input type="number" name="minutes" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_duration(); ?>">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">min</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item my-list-style">Score :
+                                <div class="input-group">
+                                    <input readonly type="number" name="score" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_score(); ?>">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">points</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item my-list-style">Status :
+                                <input readonly type="text" name="status" id="status" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_status(); ?>">
+                            </li>
+                            <li class="list-group-item d-flex justify-content-center my-list-style">
+                                <input hidden type="number" name="chosenTreeId" id="chosenTreeId" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_chosen_tree_id(); ?>">
+                                <input type="submit" name="remove" value="Remove tree" id="remove" class="btn btn-outline-light">
+                                <input type="submit" name="start" value="Start planting" id="start" class="btn btn-outline-light">
+                                <input type="submit" name="give_up" value="Give up" id="give_up" class="btn btn-outline-light">
+                            </li>
+                        </ul>
+                    </form>
+                <?php else : ?>
                     <ul class="list-group">
-                        <li class="list-group-item">Chosen Tree :
-                            <?php
-                            if ($chosen_tree) {
-                                echo "" . select_tree($chosen_tree->get_tree_id())->get_name();
-                            }
-                            ?>
-                        </li>
-                        <li class="list-group-item">
-                            <?php
-                            if ($chosen_tree) {
-                                echo '<img src="img/' . select_tree($chosen_tree->get_tree_id())->get_img() . '">';
-                            }
-                            ?>
-                        </li>
-                        <li class="list-group-item">Duration : <p id="timer"></p>
-                            <div class="input-group">
-                                <input type="number" name="minutes" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_duration(); ?>">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">min</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">Score :
-                            <div class="input-group">
-                                <input readonly type="number" name="score" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_score(); ?>">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">points</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">Status :
-                            <input readonly type="text" name="status" id="status" class="form-control" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_status(); ?>">
-                        </li>
-                        <li class="list-group-item d-flex justify-content-center">
-                            <input hidden type="number" name="chosenTreeId" id="chosenTreeId" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_chosen_tree_id(); ?>">
-                            <input type="submit" name="remove" value="Remove tree" id="remove" class="btn btn-outline-primary">
-                            <input type="submit" name="start" value="Start planting" id="start"class="btn btn-outline-primary">
-                            <input type="submit" name="give_up" value="Give up" id="give_up" class="btn btn-outline-primary">
-                        </li>
+                        <li class="list-group-item not-chosen">Please choose tree that you wish to plant!</li>
                     </ul>
-                </form>
+                <?php endif; ?>
             </div>
             <div class="col-md-4">
-                Planting history <br><br>
                 <ul class="list-group">
-                    <li class="list-group-item active">Planting history </li>
-                    <li class="list-group-item">Tree</li>
-                    <li class="list-group-item">Number of Planted</li>
-                    <li class="list-group-item">Number of Withered</li>
+                    <li class="list-group-item not-chosen">Planting history </li>
+                    <li class="list-group-item  my-list-style">Tree</li>
+                    <li class="list-group-item  my-list-style">Number of Planted</li>
+                    <li class="list-group-item  my-list-style">Number of Withered</li>
                 </ul>
             </div>
         </div>
     </div>
-    <script>$("#give_up").hide();</script>
+    <script>
+        $("#give_up").hide();
+    </script>
 </body>
 
 </html>
