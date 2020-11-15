@@ -4,7 +4,6 @@ class Chosen_Tree
     private $chosen_tree_id;
     private $tree_id;
     private $duration;
-    private $datetime;
     private $status;
     private $score;
 
@@ -18,14 +17,12 @@ class Chosen_Tree
     {
         $this->tree_id = $tree_id;
     }
+
     public function set_duration($duration)
     {
         $this->duration= $duration;
     }
-    public function set_datetime($datetime)
-    {
-        $this->datetime= $datetime;
-    }
+
     public function set_status($status)
     {
         $this->status = $status;
@@ -48,10 +45,7 @@ class Chosen_Tree
     {
         return $this->duration;
     }
-    public function get_datetime()
-    {
-        return $this->datetime;
-    }
+
     public function get_status()
     {
         return $this->status;

@@ -17,13 +17,23 @@
 <body>
 
     <?php
+
+
     include "classes/tree.php";
     include "classes/chosen_tree.php";
-    include "session.php";
+    include "classes/planting_history.php";
+    // include "session.php";
     include "selectTrees.php";
     include "chooseTree.php";
     include "updateTrees.php";
     include "deleteTrees.php";
+    include "plantingHistory.php";
+
+    session_start();
+    if (!isset($_SESSION['searchResult'])) {
+        $_SESSION['searchResult'] = select_all_trees_with_outcome();
+    }
+
     ?>
 
     <div class="card text-center title-back">
@@ -103,7 +113,7 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-center my-list-style">
                                 <input hidden type="number" name="chosenTreeId" id="chosenTreeId" value="<?php if ($chosen_tree) echo "" . $chosen_tree->get_chosen_tree_id(); ?>">
-                                <input type="submit" name="remove" value="Remove tree" id="remove" class="btn btn-outline-light">
+                                <input type="submit" name="remove" value="Remove tree" id="remove" class="btn btn-outline-light"> &nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="submit" name="start" value="Start planting" id="start" class="btn btn-outline-light">
                                 <input type="submit" name="give_up" value="Give up" id="give_up" class="btn btn-outline-light">
                             </li>
@@ -117,16 +127,75 @@
             </div>
             <div class="col-md-4">
                 <ul class="list-group">
-                    <li class="list-group-item not-chosen">Planting history </li>
-                    <li class="list-group-item  my-list-style">Tree</li>
-                    <li class="list-group-item  my-list-style">Number of Planted</li>
-                    <li class="list-group-item  my-list-style">Number of Withered</li>
+                    <li class="list-group-item not-chosen">
+                        <div class="row">
+                            <div class="col-md-6">
+                                Planting history
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" name="search" id="search" placeholder="Search tree" onkeyup="search(this.value);">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item my-list-style">
+                        <div class="row">
+                            <div class="col-md-3">Tree</div>
+                            <div class="col-md-3">Planted</div>
+                            <div class="col-md-3">Withered</div>
+                            <div class="col-md-3">Score</div>
+                        </div>
+                    </li>
+                    <?php
+                    foreach ($_SESSION['searchResult'] as $tree) :
+                    ?>
+                        <li class="list-group-item  my-list-style">
+                            <div class="row">
+                                <div class="col-md-3"><?php echo "" . select_tree($tree->get_tree_id())->get_name(); ?></div>
+                                <div class="col-md-3"><?php echo "" . $tree->get_planted(); ?></div>
+                                <div class="col-md-3"><?php echo "" . $tree->get_withered(); ?></div>
+                                <div class="col-md-3"><?php echo "" . $tree->get_total_score(); ?></div>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
+
             </div>
         </div>
     </div>
     <script>
         $("#give_up").hide();
+        // var focus;
+
+        window.onbeforeunload = function() {
+            localStorage.setItem("search", $('#search').val());
+            // if( $('#search').val()=="") focus=false;
+        }
+        window.onload = function() {
+            var search = localStorage.getItem("search");
+            if (search !== null) $('#search').val(search);
+            if ($('#search').val()) $('#search').focus();
+        }
+        var req = null;
+
+        function search(value) {
+            if (req != null) req.abort();
+
+            req = $.ajax({
+                type: "GET",
+                url: "search.php",
+                data: {
+                    'search_keyword': value
+                },
+                dataType: "text",
+                success: function(msg) {
+                    console.log(msg);
+                    localStorage.setItem("search", $('#search').val(value));
+                    // focus=true;
+                    window.location.reload();
+
+                }
+            });
+        }
     </script>
 </body>
 

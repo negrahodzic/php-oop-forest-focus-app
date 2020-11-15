@@ -26,6 +26,7 @@ img {
     margin-right: auto;
 }
 
+
 .my-list-style {
     background-color: #51a388;
     color:white;
@@ -53,7 +54,7 @@ img {
 
 body{
     background-color: #50aa8eab;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .tree-form{
@@ -75,4 +76,8 @@ body{
 
 .chosen {
     margin-top: 10vh;
+}
+
+.search-bar{
+    /* nesto ne radi */
 }
