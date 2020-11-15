@@ -36,7 +36,6 @@ function select_chosen_tree($chosen_tree_id)
         $chosen_tree->set_chosen_tree_id($row->chosen_tree_id);
         $chosen_tree->set_tree_id($row->tree_id);
         $chosen_tree->set_duration($row->duration);
-        $chosen_tree->set_datetime($row->datetime);
         $chosen_tree->set_status($row->status);
         $chosen_tree->set_score($row->score);
 

@@ -8,8 +8,8 @@ if (isset($_POST['treeWasChosen'])) {
 function chooseTree($id)
 {
     global $mysqli;
-    $insertQuery = "INSERT INTO chosen_tree (tree_id, duration, datetime, status, score) 
-                    VALUES ('$id', '0', 'NOW()', 'Not started', '0');";
+    $insertQuery = "INSERT INTO chosen_tree (tree_id, duration, status, score) 
+                    VALUES ('$id', '0', 'Not started', '0');";
     if($mysqli->query($insertQuery)===true){
         echo "<script type='text/javascript'>alert('Succefully chose tree. Last inserted id: $mysqli->insert_id');</script>";
         $_SESSION['chosen'] = select_chosen_tree($mysqli->insert_id);
