@@ -21,14 +21,11 @@ function search($search_keyword)
 { //TODO: dodaj ignorecase
     $allTrees = select_all_trees_with_outcome();
     $searchResult = array();
-    echo " search ";
     foreach ($allTrees as $tr) {
-        echo " hello ";
         $name = select_tree($tr->get_tree_id())->get_name();
         echo " $name ";
         if (substr($name, 0, strlen($search_keyword)) == $search_keyword) {
             $searchResult[] = $tr;
-            echo " world ";
         }
     }
     return $searchResult;

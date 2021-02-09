@@ -50,7 +50,3 @@ function select_all_trees_with_outcome()
 
     return $treesWithOutcome;
 }
-
-//dodaj da update radi u bazi za planting history
-//samo za nove?
-//ne treba da svaki put racuna sve preko chosen_tree tabele

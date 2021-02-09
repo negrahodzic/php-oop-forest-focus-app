@@ -42,12 +42,6 @@ function updateStatus(status) {
       's': status,
       'id': document.getElementById("chosenTreeId").value
     },
-    type: 'post',
-    success: function (output) {
-      alert(output);
-    },
-    error: function (request, status, error) {
-      alert("Error: Could not delete -> "+ error+ " ---- status -> "+ status);
-    }
+    type: 'post'
   });
 }

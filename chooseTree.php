@@ -11,7 +11,7 @@ function chooseTree($id)
     $insertQuery = "INSERT INTO chosen_tree (tree_id, duration, status, score) 
                     VALUES ('$id', '0', 'Not started', '0');";
     if($mysqli->query($insertQuery)===true){
-        echo "<script type='text/javascript'>alert('Succefully chose tree. Last inserted id: $mysqli->insert_id');</script>";
+        // echo "<script type='text/javascript'>alert('Succefully chose tree. Last inserted id: $mysqli->insert_id');</script>";
         $_SESSION['chosen'] = select_chosen_tree($mysqli->insert_id);
     } else {
         echo "<script type='text/javascript'>alert('Failed while choosing tree.');</script>";
